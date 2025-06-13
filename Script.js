@@ -1,3 +1,7 @@
+// ==============
+// Inventory Data
+// ==============
+
 const marketInventory = [
     {
         name:"SmartWater 1.5Liter",
@@ -17,12 +21,15 @@ const marketInventory = [
         name:"Ben & Jerry Milk & Cookies",
         price:7.99,
         category:"Grocery Non-Taxable",
-        barcode:"012345678905",
+        barcode:"712345678905",
         quantity:15
     }
     
 ]
 
+// =================
+// Search Function
+// =================
 function searchInventory(searchInput){
     for(let i=0; i<marketInventory.length; i++){
         let item = marketInventory[i];
@@ -39,21 +46,37 @@ function searchInventory(searchInput){
     console.log("Item is not found.")
 };
 
-searchInventory("flaming hot cheetos");
+
+
+
+// =================
+// Add Function
+// =================
 
 function addInventory(name, price, category, barcode, quantity){
+    for(let i = 0; i<marketInventory.length;i++){
+        let item = marketInventory[i];
+        if(item.name.toLowerCase()===name.toLowerCase()){
+            console.log(`${item.name} cannot be added. Duplicate.`)
+            return;
+        }
+        if(item.barcode===barcode){
+            console.log(`${item.barcode} cannot be added. Duplicate.`)
+            return;
+        }
+    }
     let addItem = {name, price, category, barcode, quantity};
     marketInventory.push(addItem);
     console.log(`${name} has been added.`);
-    
-
 }
 
-addInventory("Avocado", 2.49, "Grocery Non-Taxable", "678905432189", 13 );
 
-console.log(marketInventory);
+// ===================
+// Sell Item function
+// ===================
 
-function updateQuantity(searchInput){
+
+function sellItem(searchInput){
     for(let i = 0; i<marketInventory.length; i++){
         let item=marketInventory[i]
         if(item.name.toLowerCase()===searchInput.toLowerCase() || item.barcode===searchInput){
@@ -66,6 +89,11 @@ function updateQuantity(searchInput){
     }
     console.log("Item has not been found.")
 }
+
+
+// =================
+// Restock Function
+// =================
 
 function restockQuantity(searchInput, amount){
     for( let i = 0; i<marketInventory.length; i++){
@@ -86,9 +114,12 @@ function restockQuantity(searchInput, amount){
         console.log("Item is not found.")
     }
 
-restockQuantity("avocado",20);
 
 
+
+// =================
+// Low Stock Function
+// =================
 function lowStock(){
     let foundLowStock = false;
     for(let i=0; i<marketInventory.length; i++){
@@ -103,7 +134,9 @@ function lowStock(){
     }
 }
 
-// lowStock();
+// =====================
+// Update Item Function
+// =====================
 
 function updateItem(searchInput, newName = null, newBarcode= null, newPrice = null, newQuantity=null){
 for(let i =0; i<marketInventory.length; i++){
@@ -121,9 +154,10 @@ for(let i =0; i<marketInventory.length; i++){
 console.log("Item not found!")
 }
 
-// updateItem("flaming hot cheetos", null , 69);
 
-// console.log(marketInventory);
+// =================
+// Remove Function
+// =================
 
 function removeItem(searchInput){
     for( let i = 0; i<marketInventory.length; i++){
@@ -137,8 +171,11 @@ function removeItem(searchInput){
     console.log(" Item is not found.");
 }
 
-// removeItem("flaming hot cheetos");
-// console.log(marketInventory);
+
+// ==========================
+// Display Inventory Function
+// ==========================
+
 
 function displayInventory(){
     if(marketInventory.length === 0){
@@ -151,19 +188,113 @@ function displayInventory(){
     }
 }
 
-// displayInventory()
+// =================
+// Sort Function
+// =================
 
 function sortInventoryByName(searchInput){
     searchInput.sort((a,b)=>a.name.localeCompare(b.name))
 }
 
-function printInventoryByName(searchInput){
-    searchInput.forEach(item => {console.log(`Name: ${item.name} | Price: $${item.price} | Quantity: ${item.quantity} | Barcode: ${item.barcode}`)})
-        
-    
+function sortInventoryByPrice(searchInput){
+    searchInput.sort((a,b)=>
+        a.price-b.price );
+}
+
+function sortInventoryByCategory(searchInput){
+    searchInput.sort((a,b)=>a.category.localeCompare(b.category))
+};
+
+function sortInventoryByQuantity(searchInput){
+searchInput.sort((a,b)=>a.quantity-b.quantity);
+};
+
+//========================
+//Print Inventory Function
+//========================
+
+
+function printInventory(searchInput){
+    searchInput.forEach(item => {console.log(`Name: ${item.name} | Category: ${item.category} | Price: $${item.price} | Quantity: ${item.quantity} | Barcode: ${item.barcode}`)})
+
     }
 
+//=====================
+//Filter Function//
+//=====================
+function filterbyKeyword(searchInput){
+const results = marketInventory.filter(item=> item.name.toLowerCase().includes(searchInput.toLowerCase()));
+    if ( results.length>0){
+    console.log("Items found: ", results);
+    return results;
+    }
+    console.log("items not found.")
+    return[];
+}
+
+function filterbyCategory(searchInput){
+    const results = marketInventory.filter(item=> item.category.toLowerCase().includes(searchInput.toLowerCase()));
+    if(results.length>0){
+        console.log("Items found: ", results);
+        return results;
+    }
+    console.log("items not found.")
+    return[];
+}
+
+function filterbyBarcode(searchInput){
+    const results = marketInventory.filter(item=>item.barcode.startsWith(searchInput.toString()));
+    if(results.length>0){
+        console.log("Item has been found: ", results);
+        return results;
+    }   
+        console.log("Item is not found!");
+        return[];
+}
+
+function filterByPrice(searchInput){
+    const results = marketInventory.filter(item=> item.price.toString().startsWith(searchInput.toString()));
+    if(results.length>0){
+        console.log("Item has been found: ", results);
+        return results;
+    }
+    console.log("Item is not found!");
+    return[];
+}
+
+function filterbyQuantity(searchInput){
+    const results = marketInventory.filter(item=> item.quantity<=searchInput);
+    if(results.length>0){
+        console.log("Item has been found: ", results);
+        return results;
+    }
+    console.log(`Item less than or equal to ${searchInput} is not found!`);
+    return [];
 
 
-sortInventoryByName(marketInventory);
-printInventoryByName(marketInventory);
+}
+
+
+
+
+
+
+//===========
+//Testing
+//===========
+
+
+// searchInventory("flaming hot cheetos");
+// addInventory("Avocado", 2.49, "Produce", "678905432189", 13);
+// sellItem("avocado");
+// restockQuantity("avocado", 20);
+// lowStock();
+// updateItem("flaming hot cheetos", null, null, 2.99);
+// removeItem("flaming hot cheeots");
+// displayInventory();
+// filterbyCategory("pro");
+// filterbyBarcode("7");
+// filterByPrice(2.99);
+// filterbyQuantity(20);
+// sortInventoryByPrice(marketInventory);
+// printInventory(marketInventory);
