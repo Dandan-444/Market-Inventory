@@ -27,9 +27,9 @@ const marketInventory = [
     
 ]
 
-// =================
+// ===============
 // Search Function
-// =================
+// ===============
 function searchInventory(searchInput){
     for(let i=0; i<marketInventory.length; i++){
         let item = marketInventory[i];
@@ -49,9 +49,10 @@ function searchInventory(searchInput){
 
 
 
-// =================
+
+// ============
 // Add Function
-// =================
+// ============
 
 function addInventory(name, price, category, barcode, quantity){
     for(let i = 0; i<marketInventory.length;i++){
@@ -71,9 +72,9 @@ function addInventory(name, price, category, barcode, quantity){
 }
 
 
-// ===================
+// ==================
 // Sell Item function
-// ===================
+// ==================
 
 
 function sellItem(searchInput){
@@ -91,9 +92,9 @@ function sellItem(searchInput){
 }
 
 
-// =================
+// ================
 // Restock Function
-// =================
+// ================
 
 function restockQuantity(searchInput, amount){
     for( let i = 0; i<marketInventory.length; i++){
@@ -117,9 +118,9 @@ function restockQuantity(searchInput, amount){
 
 
 
-// =================
+// ==================
 // Low Stock Function
-// =================
+// ==================
 function lowStock(){
     let foundLowStock = false;
     for(let i=0; i<marketInventory.length; i++){
@@ -134,9 +135,9 @@ function lowStock(){
     }
 }
 
-// =====================
+// ====================
 // Update Item Function
-// =====================
+// ====================
 
 function updateItem(searchInput, newName = null, newBarcode= null, newPrice = null, newQuantity=null){
 for(let i =0; i<marketInventory.length; i++){
@@ -155,9 +156,9 @@ console.log("Item not found!")
 }
 
 
-// =================
+// ===============
 // Remove Function
-// =================
+// ===============
 
 function removeItem(searchInput){
     for( let i = 0; i<marketInventory.length; i++){
@@ -188,42 +189,42 @@ function displayInventory(){
     }
 }
 
-// =================
+// =============
 // Sort Function
-// =================
+// =============
 
-function sortInventoryByName(searchInput){
-    searchInput.sort((a,b)=>a.name.localeCompare(b.name))
+function sortInventoryByLetter(arrayName){
+    arrayName.sort((a,b)=>a.name.localeCompare(b.name))
 }
 
-function sortInventoryByPrice(searchInput){
-    searchInput.sort((a,b)=>
+function sortInventoryByPrice(arrayName){
+    arrayName.sort((a,b)=>
         a.price-b.price );
 }
 
-function sortInventoryByCategory(searchInput){
-    searchInput.sort((a,b)=>a.category.localeCompare(b.category))
+function sortInventoryByCategory(arrayName){
+    arrayName.sort((a,b)=>a.category.localeCompare(b.category))
 };
 
-function sortInventoryByQuantity(searchInput){
-searchInput.sort((a,b)=>a.quantity-b.quantity);
-};
+    function sortInventoryByQuantity(arrayName){
+    arrayName.sort((a,b)=>a.quantity-b.quantity);
+    };
 
 //========================
 //Print Inventory Function
 //========================
 
 
-function printInventory(searchInput){
-    searchInput.forEach(item => {console.log(`Name: ${item.name} | Category: ${item.category} | Price: $${item.price} | Quantity: ${item.quantity} | Barcode: ${item.barcode}`)})
+function printInventory(arrayName){
+    arrayName.forEach(item => {console.log(`Name: ${item.name} | Category: ${item.category} | Price: $${item.price} | Quantity: ${item.quantity} | Barcode: ${item.barcode}`)})
 
     }
 
-//=====================
-//Filter Function//
-//=====================
-function filterbyKeyword(searchInput){
-const results = marketInventory.filter(item=> item.name.toLowerCase().includes(searchInput.toLowerCase()));
+//===============
+//Filter Function
+//===============
+function filterbyKeyword(stringName){
+const results = marketInventory.filter(item=> item.name.toLowerCase().includes(stringName.toLowerCase()));
     if ( results.length>0){
     console.log("Items found: ", results);
     return results;
@@ -232,8 +233,8 @@ const results = marketInventory.filter(item=> item.name.toLowerCase().includes(s
     return[];
 }
 
-function filterbyCategory(searchInput){
-    const results = marketInventory.filter(item=> item.category.toLowerCase().includes(searchInput.toLowerCase()));
+function filterbyCategory(stringName){
+    const results = marketInventory.filter(item=> item.category.toLowerCase().includes(stringName.toLowerCase()));
     if(results.length>0){
         console.log("Items found: ", results);
         return results;
@@ -241,9 +242,11 @@ function filterbyCategory(searchInput){
     console.log("items not found.")
     return[];
 }
+addInventory("Avocado", 2.49, "Produce", "678905432189", 13);
+filterbyCategory("pro");
 
-function filterbyBarcode(searchInput){
-    const results = marketInventory.filter(item=>item.barcode.startsWith(searchInput.toString()));
+function filterbyBarcode(stringName){
+    const results = marketInventory.filter(item=>item.barcode.startsWith(stringName.toString()));
     if(results.length>0){
         console.log("Item has been found: ", results);
         return results;
@@ -252,8 +255,8 @@ function filterbyBarcode(searchInput){
         return[];
 }
 
-function filterByPrice(searchInput){
-    const results = marketInventory.filter(item=> item.price.toString().startsWith(searchInput.toString()));
+function filterByPrice(stringName){
+    const results = marketInventory.filter(item=> item.price.toString().startsWith(stringName.toString()));
     if(results.length>0){
         console.log("Item has been found: ", results);
         return results;
@@ -262,26 +265,163 @@ function filterByPrice(searchInput){
     return[];
 }
 
-function filterbyQuantity(searchInput){
-    const results = marketInventory.filter(item=> item.quantity<=searchInput);
+function filterbyQuantity(stringName){
+    const results = marketInventory.filter(item=> item.quantity<=stringName);
     if(results.length>0){
         console.log("Item has been found: ", results);
         return results;
     }
-    console.log(`Item less than or equal to ${searchInput} is not found!`);
+    console.log(`Item less than or equal to ${stringName} is not found!`);
     return [];
 
+
+}
+
+//======================
+//Advanced Search Filter
+//======================
+
+function advancedFilterbyQuantity(searchInput){
+    const match = searchInput.match(/^(<=|>=|==|===|<|>)\s*(\d+(\.\d+)?)$/);
+    if (!match){
+        console.log("Error input is invalid. Please enter correct input");
+        return[];
+    }
+    const operator =match[1];
+    const number = parseInt(match[2], 10);
+    const result = marketInventory.filter(item=>{
+        switch(operator){
+            case "<=":  return  item.quantity <= number;
+            case ">=":  return  item.quantity >= number;
+            case "==":  return  item.quantity == number;
+            case "===": return  item.quantity === number;
+            case "<": return    item.quantity < number;
+            case ">": return    item.quantity > number;
+            default: false;
+
+        }
+    });
+    if(result.length>0){
+        console.log("Item has been found: ", result);
+        return result;
+    }
+    else {
+        console.log("Item has not been found.")
+    };
+};
+
+
+
+function advancedFilterbyPrice(searchInput){
+    const match = searchInput.match(/^(>=|<=|===|==|<|>)\s*(\d+(\.\d+)?)$/);
+    if(!match){
+        console.log("Invalid Input. Please enter correct input.")
+        return [];
+    }
+    const operator = match[1];
+    const number = parseFloat(match[2])
+    const result = marketInventory.filter(item=>{
+        switch(operator){
+            case ">=": return item.price >= number;
+            case "<=": return item.price <= number;
+            case "===": return item.price === number;
+            case "==":  return item.price == number;
+            case "<":  return item.price < number;
+            case ">":  return item.price > number;
+            default: return false;
+        }
+    });
+    if(result.length>0){
+        console.log("Item has been found: ", result);
+        return result;
+    } else {
+        console.log("Item has not been found.");
+        return [];
+    }
+};
+
+function multipleConditionalFilter(searchInput){
+    const result = marketInventory.filter(item=>{
+        if(searchInput.category){
+            if(!item.category.toLowerCase().includes(searchInput.category.toLowerCase())){
+                return false;
+            }
+        }
+        if(searchInput.name){
+            if(!item.name.toLowerCase().includes(searchInput.name.toLowerCase())){
+                return false;
+            }
+        }
+        if(searchInput.barcode){
+            if(!item.barcode.includes(searchInput.barcode)){
+                return false;
+            }
+        }
+        if(searchInput.price){
+            if(!filterbyPrice_conditional(item.price, searchInput.price)) return false;
+            
+        }
+        if(searchInput.quantity){
+            if(!filterbyQuantity_conditional(item.quantity, searchInput.quantity)) return false;
+        }
+        return true;
+    })
+    
+    if(result.length > 0){
+        console.log("Item has been found: ", result);
+        return result
+    } else {
+        console.log("No item has been found.");
+        return [];
+    }
+    
+}
+
+function filterbyPrice_conditional(price, searchInput){
+    const match = searchInput.match(/^(<=|>=|==|===|<|>)\s*(\d+(\.\d+)?)$/);
+    if(!match){
+        console.log("Invalid operator. Please enter correct operator.");
+        return false;
+    }
+    const operator = match[1];
+    const number =  parseFloat(match[2]);
+    switch(operator){
+        case "<=": return price <= number;
+        case ">=": return price >= number;
+        case "==": return price == number;
+        case "===": return price === number;
+        case ">": return price > number;
+        case "<": return price < number;
+        default: return false;
+    }
+}
+
+function filterbyQuantity_conditional(quantity, searchInput){
+    const match = searchInput.match(/^(<=|>=|==|===|<|>)\s*(\d+(\.\d+)?)$/);
+    if(!match){
+        console.log("Invalid operator. Please enter correct operator.");
+        return false;
+    }
+    const operator = match[1];
+    const number = parseInt(match[2],10);
+    switch (operator){
+        case "<=": return quantity <= number;
+        case ">=": return quantity >= number;
+        case "==": return quantity == number;
+        case "===": return quantity === number;
+        case "<": return quantity < number;
+        case ">": return quantity > number;
+        default: return false;
+    }
 
 }
 
 
 
 
-
-
-//===========
+//=======
 //Testing
-//===========
+//=======
 
 
 // searchInventory("flaming hot cheetos");
@@ -298,3 +438,6 @@ function filterbyQuantity(searchInput){
 // filterbyQuantity(20);
 // sortInventoryByPrice(marketInventory);
 // printInventory(marketInventory);
+// advancedFilterbyQuantity(">= 10");
+// advancedFilterbyPrice ( ">= 2.99");
+
