@@ -54,22 +54,68 @@ function searchInventory(searchInput){
 // Add Function
 // ============
 
+// function addInventory(name, price, category, barcode, quantity){
+//     for(let i = 0; i<marketInventory.length;i++){
+//         let item = marketInventory[i];
+//         if(item.name.toLowerCase()===name.toLowerCase()){
+//             console.log(`${item.name} cannot be added. Duplicate.`)
+//             return;
+//         }
+//         if(item.barcode===barcode){
+//             console.log(`${item.barcode} cannot be added. Duplicate.`)
+//             return;
+//         }
+//     }
+//     let addItem = {name, price, category, barcode, quantity};
+//     marketInventory.push(addItem);
+//     console.log(`${name} has been added.`);
+// }
+
 function addInventory(name, price, category, barcode, quantity){
-    for(let i = 0; i<marketInventory.length;i++){
-        let item = marketInventory[i];
-        if(item.name.toLowerCase()===name.toLowerCase()){
-            console.log(`${item.name} cannot be added. Duplicate.`)
-            return;
-        }
-        if(item.barcode===barcode){
-            console.log(`${item.barcode} cannot be added. Duplicate.`)
+    price = parseFloat(price)
+   
+    if(!name|| typeof name !== "string" || name.trim()== "" ){
+        console.log("Invalid name or empty string.");
+        return;
+    }
+    if(isNaN(price)|| price<0){
+        console.log("Invalid price or negative number.");
+        return;
+    }
+
+    if(!category|| typeof category !== "string"|| category.trim()===""){
+        console.log("invalid input or empty string.");
+        return;
+    }
+    if(!barcode|| typeof barcode !== "string"|| barcode.trim()===""){
+        console.log("Invalid input or empty string.");
+        return false;
+    }
+
+    if(!Number.isInteger(quantity)|| quantity<0){
+        console.log("invalid Input or negative number");
+        return false;
+    }
+
+    for(const item of marketInventory){
+        if(item.name.toLowerCase()=== name.toLowerCase() || item.barcode=== barcode){
+            console.log("Error duplicate item name or barcode");
             return;
         }
     }
-    let addItem = {name, price, category, barcode, quantity};
-    marketInventory.push(addItem);
-    console.log(`${name} has been added.`);
+
+    const newItem = {name, price, category, barcode, quantity};
+    marketInventory.push(newItem);
+    console.log("New item has been added: ", newItem);
+    return;
 }
+
+
+
+
+
+
+
 
 
 // ==================
@@ -353,17 +399,19 @@ function multipleConditionalFilter(searchInput){
             }
         }
         if(searchInput.barcode){
-            if(!item.barcode.includes(searchInput.barcode)){
+            if(!item.barcode.startsWith(searchInput.barcode)){
                 return false;
             }
         }
         if(searchInput.price){
-            if(!filterbyPrice_conditional(item.price, searchInput.price)) return false;
+            if(!filterbyPrice_conditional(item.price, searchInput.price)){ 
+                return false;
             
-        }
+        }}
         if(searchInput.quantity){
-            if(!filterbyQuantity_conditional(item.quantity, searchInput.quantity)) return false;
-        }
+            if(!filterbyQuantity_conditional(item.quantity, searchInput.quantity)){ 
+                return false;
+        }}
         return true;
     })
     
@@ -415,8 +463,6 @@ function filterbyQuantity_conditional(quantity, searchInput){
     }
 
 }
-
-
 
 
 //=======
