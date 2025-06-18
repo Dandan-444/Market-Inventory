@@ -22,6 +22,38 @@ Features include:
 
 *Last updated: 2025-06-13*
 
+## Progress Updates
+
+### 2025-06-18
+
+- Implemented thorough input validation for the `addInventory` function:
+  - Checked for empty or invalid strings on `name`, `category`, and `barcode`.
+  - Validated `price` as a non-negative number, using `parseFloat` and `isNaN`.
+  - Validated `quantity` as a non-negative integer using `Number.isInteger`.
+  - Added duplicate prevention for `name` (case-insensitive) and `barcode`.
+
+- Built an advanced multiple-conditions filter function:
+  - Supports filtering by `name`, `category`, `barcode` (using `.startsWith()`), `price`, and `quantity`.
+  - Used regex with `.match()` to parse conditional operators (`<=`, `>=`, `==`, etc.) for price and quantity.
+  - Practiced and reinforced knowledge of `.includes()`, `.toLowerCase()`, `.startsWith()`, and `typeof`.
+
+- Polished error handling:
+  - Consistent console error messages for invalid inputs.
+  - Proper use of `return` to exit functions on invalid data.
+
+- Learned important JavaScript fundamentals:
+  - `typeof` operator usage for type checking.
+  - String trimming to handle user input whitespace.
+  - Boolean logic with `&&`, `||`, and `!`.
+
+- Prepared codebase for next phase: integrating DOM/UI and further testing.
+
+---
+
+
+
+
+
 
 ## About Me
 
